@@ -1,0 +1,11 @@
+{
+    "id": "40547dd3-57ed-4aef-9ebf-ec1996089718",
+    "name": "Authorarr",
+    "version": "1.0.0",
+    "targetAbi": "10.7.7.0",
+    "framework": "net8.0",
+    "owner": "lurkzies",
+    "description": "Fetches author metadata for books from Open Library",
+    "category": "Metadata",
+    "artifacts": ["jellyfin-authorarr.dll"]
+}

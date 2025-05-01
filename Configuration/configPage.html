@@ -1,0 +1,80 @@
+<!-- Configuration/configPage.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Authorarr Settings</title>
+</head>
+<body>
+    <div data-role="page" class="page type-interior pluginConfigurationPage" data-require="emby-input,emby-button">
+        <div data-role="content">
+            <div class="content-primary">
+                <form class="authorarrConfigForm">
+
+                    <h1 class="h1">Authorarr Settings</h1>
+                    <p>Choose which metadata sources Authorarr should use for author information.</p>
+
+                    <div class="inputContainer">
+                        <label>
+                            <input is="emby-checkbox" type="checkbox" name="UseOpenLibrary" />
+                            Use OpenLibrary (default)
+                        </label>
+                    </div>
+
+                    <div class="inputContainer">
+                        <label>
+                            <input is="emby-checkbox" type="checkbox" name="UseWikipedia" />
+                            Use Wikipedia (fallback)
+                        </label>
+                    </div>
+
+                    <div class="inputContainer">
+                        <label>
+                            <input is="emby-checkbox" type="checkbox" name="UseGoodreads" />
+                            Use Goodreads (fallback)
+                        </label>
+                    </div>
+
+                    <div class="inputContainer">
+                        <button is="emby-button" type="submit" class="raised button-submit block">Save</button>
+                    </div>
+
+                    <div class="inputContainer">
+                        <div class="fieldDescription">Changes will take effect the next time metadata is refreshed.</div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        (function () {
+            const pluginId = "40547dd3-57ed-4aef-9ebf-ec1996089718";
+
+            function loadConfig() {
+                ApiClient.getPluginConfiguration(pluginId).then(config => {
+                    document.querySelector('input[name="UseOpenLibrary"]').checked = config.UseOpenLibrary;
+                    document.querySelector('input[name="UseWikipedia"]').checked = config.UseWikipedia;
+                    document.querySelector('input[name="UseGoodreads"]').checked = config.UseGoodreads;
+                });
+            }
+
+            document.querySelector('.authorarrConfigForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const config = {
+                    UseOpenLibrary: document.querySelector('input[name="UseOpenLibrary"]').checked,
+                    UseWikipedia: document.querySelector('input[name="UseWikipedia"]').checked,
+                    UseGoodreads: document.querySelector('input[name="UseGoodreads"]').checked
+                };
+
+                ApiClient.updatePluginConfiguration(pluginId, config).then(() => {
+                    Dashboard.processPluginConfigurationUpdateResult();
+                });
+            });
+
+            loadConfig();
+        })();
+    </script>
+</body>
+</html>
